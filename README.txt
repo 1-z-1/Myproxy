@@ -1,0 +1,1 @@
+This is a private proxy with no encryption to access some website to get academic resource ( WARNING:Please don't use it to viole law !!!)
