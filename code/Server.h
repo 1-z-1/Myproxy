@@ -5,20 +5,32 @@
 #include<arpa/inet.h>
 #include<sys/types.h>
 #include<stdlib.h>
+#include<stdlib.h>
+#include<string.h>
+#include<sys/wait.h>
 #include <unistd.h>
+
+using namespace std;
+
 class Server {
 private:
 	struct sockaddr_in self_sockaddr;
-	struct sockaddr_in client_sockaddr;
 	socklen_t clientAddrLen = sizeof(self_sockaddr);
-	int selfSocket = 0;
-	int targetSocket = 0; //use this Socket to connect remote target server.
-	int clientSocket = 0; //use this Socket to connect client.
-	char clientBuff[1024*8] = {0}; // each time there are 20 data messages at maximum.
-	char targetBuff[1024*8] = {0};
-
+	int selfSocket = 0;  //welcome socket
 	enum status { FAILURE, SUCCESS };
 public:
-	int handshake();
 	Server();
+	int start();
+
+};
+void cleanHandle(int sig);// server uses to clean the child process
+
+class User {
+public:
+	char clientBuff[8196]; // each one there are 1024*8 data messages at maximum.
+	char targetBuff[8196];
+	int targetSocket = 0;  //use this Socket to connect remote target server.
+	int clientSocket = 0;  //use this Socket to connect client.
+	struct sockaddr_in client_sockaddr;
+	User();
 };
