@@ -12,6 +12,8 @@
 
 using namespace std;
 
+
+
 class Server {
 private:
 	struct sockaddr_in self_sockaddr;
@@ -25,12 +27,22 @@ public:
 };
 void cleanHandle(int sig);// server uses to clean the child process
 
+
+
 class User {
-public:
+private:
 	char clientBuff[8196]; // each one there are 1024*8 data messages at maximum.
 	char targetBuff[8196];
 	int targetSocket = 0;  //use this Socket to connect remote target server.
 	int clientSocket = 0;  //use this Socket to connect client.
 	struct sockaddr_in client_sockaddr;
+	socklen_t client_size = sizeof(client_sockaddr);
+public:
 	User();
+	int acceptClient(int welcomesock);
+	void closeClientSock();
+	int readMessages();
+	void cleanBuffer();
+	int sendMessage();
+	int processHTTPMessage();
 };
